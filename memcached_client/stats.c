@@ -164,7 +164,7 @@ void statsLoop(struct config *config) {
 
     // TODO tune controller parameters
     /* Controller parameters */
-    float PID_KP = 2.0f;
+    float PID_KP = 100.0f;
     float PID_KI = 0.5f;
     float PID_KD = 0.25f;
     float PID_TAU = 0.02f;
