@@ -1,4 +1,4 @@
-name: Create Tag on Push
+name: Update Tag on Push
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main  # You can change this to your main branch name
 
 jobs:
-  create_tag:
+  update_tag:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +18,13 @@ jobs:
         git config --global user.email "you@example.com"
         git config --global user.name "Your Name"
 
-    - name: Create Tag
+    - name: Delete Previous Tag
       run: |
-        git tag -a v${{ github.run_number }} -m "Tag"
+        git tag -d $(git describe --tags --abbrev=0)
+        git push --delete origin $(git describe --tags --abbrev=0)
+
+    - name: Create New Tag
+      run: |
+        git tag -a $(git describe --tags --abbrev=0) -m "Auto-generated tag"
         git push origin --tags
+
