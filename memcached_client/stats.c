@@ -111,14 +111,14 @@ void printGlobalStats(struct config *config) {
     double q90 = findQuantile(&global_stats.response_time, .90);
     double q95 = findQuantile(&global_stats.response_time, .95);
     double q99 = findQuantile(&global_stats.response_time, .99);
+    double average = 1000 * getAvg(&global_stats.response_time);
 
     printf("%10s,%10s,%8s,%16s, %8s,%11s,%10s,%13s,%10s,%10s,%10s,%12s,%10s,%10s,%11s,%14s\n", "unix_ts", "timeDiff",
            "rps", "requests", "gets", "sets", "hits", "misses", "avg_lat", "90th", "95th", "99th", "std", "min", "max",
            "avgGetSize");
     printf("%10ld, %10f, %9.1f,  %10d, %10d, %10d, %10d, %10d, %10f, %10f, %10f, %10f, %10f, %10f, %10f, %10f\n",
            currentTime.tv_sec, timeDiff, rps, global_stats.requests, global_stats.gets, global_stats.sets,
-           global_stats.hits, global_stats.misses,
-           1000 * getAvg(&global_stats.response_time), 1000 * q90, 1000 * q95, 1000 * q99, 1000 * std,
+           global_stats.hits, global_stats.misses, average, 1000 * q90, 1000 * q95, 1000 * q99, 1000 * std,
            1000 * global_stats.response_time.min, 1000 * global_stats.response_time.max,
            getAvg(&global_stats.get_size));
     int i;
@@ -134,7 +134,7 @@ void printGlobalStats(struct config *config) {
 
     if (config->SLO != -1) {
         // Update PID struct
-        PIDController_Update(&pid, config->SLO, q90);
+        PIDController_Update(&pid, config->SLO, average);
         printf("Setting new RPS to: %f\n", pid.out);
 
         // Update worker distribution
