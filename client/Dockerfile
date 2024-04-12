@@ -9,10 +9,10 @@ RUN buildDeps='curl gcc libc6-dev make' \
 	&& set -x \
 	&& apt-get update && apt-get install -y $buildDeps libevent-dev vim --no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/* \
-	&& curl -k -L --remote-name https://github.com/emilio-gambino/memcached-loadtester/archive/refs/tags/v1.tar.gz \
+	&& curl -k -L --remote-name https://github.com/emilio-gambino/memcached-loadtester/archive/refs/tags/v2.tar.gz \
 	&& mkdir -p /usr/src/memcached \
-	&& tar xvf v1.tar.gz -C /usr/src/memcached --strip-components=1 \
-	&& rm v1.tar.gz \
+	&& tar xvf v2.tar.gz -C /usr/src/memcached --strip-components=1 \
+	&& rm v2.tar.gz \
 	&& cd /usr/src/memcached/memcached_client \
 	&& make -j $(nproc) \
 	&& chown -R memcache:memcache /usr/src/memcached \
