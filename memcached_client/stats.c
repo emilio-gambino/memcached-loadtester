@@ -170,6 +170,8 @@ void statsLoop(struct config *config) {
     float PID_TAU = 0.02f;
     pid = (PIDController) {PID_KP, PID_KI, PID_KD, PID_TAU, config->stats_time};
 
+    printf("Creating PID controller with KP=%f, KI=%f, KD=%f\n", PID_KP, PID_KI, PID_KD);
+
     sleep(2);
     printf("Stats:\n");
     printf("-------------------------\n");

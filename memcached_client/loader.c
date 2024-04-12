@@ -277,9 +277,9 @@ void printConfiguration(struct config *config) {
     } else {
         printf("Naggle's algorithm: False\n");
     }
-    printf("\n\n");
+    printf("\n");
 
-    printf("Controller SLO target: %f\n", config->SLO);
+    printf("Controller SLO target: %f\n\n", config->SLO);
 
 }//End printConfiguration()
 
