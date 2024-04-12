@@ -295,7 +295,6 @@ void setupLoad(struct config *config) {
         exit(-1);
     }
     loadServerFile(config);
-    printf("Finished loading server file\n");
 
     if (config->n_workers % config->n_servers != 0) {
         printf("Number of client (worker) threads must be divisible by the number of servers\n");
@@ -306,12 +305,10 @@ void setupLoad(struct config *config) {
         printf("Preloading requires an output file\n");
         exit(-1);
     }
-    printf("here1\n");
 
     if (!config->pre_load || (config->scaling_factor == 1)) config->dep_dist = loadDepFile(config);
     else config->dep_dist = loadAndScaleDepFile(config);
 
-    printf("here2\n");
 
     if (config->value_size_dist == NULL) {
         config->value_size_dist = createUniformDistribution(1, 1024);
@@ -322,7 +319,6 @@ void setupLoad(struct config *config) {
     } else {
         config->n_keys = CDF_VALUES;
     }
-    printf("here3\n");
     config->key_list = generateKeys(config);
 
     if (config->multiget_dist == NULL) {
