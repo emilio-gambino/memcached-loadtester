@@ -29,3 +29,7 @@ jobs:
         git tag -a v2 -m "Tag"
         git push origin --tags
 
+    - name: Build Docker Image
+      run: |
+        cd client && ./docker.sh
+
