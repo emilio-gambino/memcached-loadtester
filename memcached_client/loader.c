@@ -79,6 +79,7 @@ struct config *parseArgs(int argc, char **argv) {
     config->distribution = SCALED_TWITTER;
     config->randomValue = 0;
     config->SLO = -1; // TODO in ms ?
+    config->measurement = 90;
 
     int i;
     for (i = 0; i < MAX_SERVERS; i++) {
@@ -87,7 +88,7 @@ struct config *parseArgs(int argc, char **argv) {
     }
 
     int c;
-    while ((c = getopt(argc, argv, "a:c:d:D:ef:g:hi:jk:l:L:m:MnN:o:p:P:ur:q:Rs:S:t:T:w:W:xzZ")) != -1) {
+    while ((c = getopt(argc, argv, "a:c:d:D:ef:g:hi:jk:l:L:m:MnN:o:p:P:ur:q:Q:Rs:S:t:T:w:W:xzZ")) != -1) {
         switch (c) {
 
             case 'a':
@@ -186,6 +187,10 @@ struct config *parseArgs(int argc, char **argv) {
                 config->SLO = atof(optarg);
                 break;
 
+            case 'Q':
+                config->measurement = atoi(optarg);
+                break;
+
             case 'r':
                 config->rps = atoi(optarg);
                 break;
@@ -279,6 +284,7 @@ void printConfiguration(struct config *config) {
     }
     printf("\n");
 
+    printf("Optimizing percentile: %d\n", config->measurement);
     printf("Controller SLO target: %f\n\n", config->SLO);
 
 }//End printConfiguration()

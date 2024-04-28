@@ -69,6 +69,7 @@ struct config {
     int randomValue;
 
     float SLO;
+    int measurement;
 };
 
 #endif

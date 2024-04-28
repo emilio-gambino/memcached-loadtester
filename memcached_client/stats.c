@@ -39,8 +39,6 @@ void addSample(struct stat *stat, float value) {
         }
         stat->fulls[bin] += 1;
     }
-
-
 }//End addAvgSample()
 
 double getAvg(struct stat *stat) {
@@ -128,13 +126,18 @@ void printGlobalStats(struct config *config) {
     }
     printf("\n");
 
+    double measurement;
+    if (config->measurement == 95)
+        measurement = q95;
+    else if (config->measurement == 99)
+        measurement = q99;
+    else
+        measurement = q90;
 
-    // TODO change measurement (percentile) based on config
-    // TODO set SLO in config using command args
 
     if (config->SLO != -1) {
         // Update PID struct
-        PIDController_Update(&pid, config->SLO, average);
+        PIDController_Update(&pid, config->SLO, measurement);
         printf("Setting new RPS to: %f\n", pid.out);
 
         // Update worker distribution
@@ -180,5 +183,17 @@ void statsLoop(struct config *config) {
         sleep(config->stats_time);
     }//End while()
 
+    // TODO demonstrate that autoregressive model is not so bad
+    // TOOD run the experiments
+
+    // TODO keep track of the previous latencies
+    // TODO add ADF test code + run ADF test every window size > degree
+    // TODO aggregation accross windows
+    // TODO feed aggregated tail latency inside PID controller
+
+    // TODO add ADF test code + run ADF test every window size > degree
+    // 1. Run the workload for window size, save latency at each iteration
+    // 2. Compute ADF for that window
+    // 3. Printf ADF stat, and potential critical value
 }//End statisticsLoop()
 
