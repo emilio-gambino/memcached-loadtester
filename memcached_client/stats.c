@@ -179,8 +179,8 @@ void statsLoop(struct config *config) {
     // TODO tune controller parameters
     /* Controller parameters */
     float PID_KP = 100000.0f;
-    float PID_KI = 5000.0f;
-    float PID_KD = 0.25f;
+    float PID_KI = 10000.0f;
+    float PID_KD = 0.5f;
     float PID_TAU = 0.02f;
     pid = (PIDController) {PID_KP, PID_KI, PID_KD, PID_TAU, config->stats_time};
 
@@ -199,7 +199,8 @@ void statsLoop(struct config *config) {
     }//End while()
 
     // TODO demonstrate that autoregressive model is not so bad
-    // TOOD run the experiments
+    // TODO run the experiments
+    // TODO send email with weekly updates
 
     // TODO add ADF test code + run ADF test every window size > degree
 
