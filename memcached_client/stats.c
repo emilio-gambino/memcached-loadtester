@@ -143,6 +143,7 @@ void printGlobalStats(struct config *config) {
     //++curr_iter;
     printf("Measurement: %lf\n", measurement);
 
+
     if (config->SLO != -1) {
         // Update PID struct
         PIDController_Update(&pid, config->SLO, measurement);
