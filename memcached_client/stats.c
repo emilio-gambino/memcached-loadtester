@@ -133,16 +133,19 @@ void printGlobalStats(struct config *config) {
 
     double measurement;
     if (config->measurement == 95)
-        measurement = q95;
+        measurement = 1000 * q95;
     else if (config->measurement == 99)
-        measurement = q99;
+        measurement = 1000 * q99;
     else
-        measurement = q90;
+        measurement = 1000 * q90;
 
-    //latencies[curr_iter] = measurement;
-    //++curr_iter;
-    printf("Measurement: %lf\n", measurement);
+    latencies[curr_iter] = measurement;
+    ++curr_iter;
 
+    for (int i = 0; i < curr_iter; ++i) {
+        printf("%lf ", latencies[curr_iter]);
+    }
+    printf("\n");
 
     if (config->SLO != -1) {
         // Update PID struct
