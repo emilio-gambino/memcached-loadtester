@@ -140,7 +140,6 @@ void printGlobalStats(struct config *config) {
         measurement = 1000 * q90;
 
     latencies[curr_iter] = measurement;
-    ++curr_iter;
 
     if (config->SLO != -1) {
         // Update PID struct
@@ -191,8 +190,12 @@ void statsLoop(struct config *config) {
     printf("Stats:\n");
     printf("-------------------------\n");
     while (1) {
-        printGlobalStats(config);
+        printf("Iteration: %d\n", curr_iter);
+        if (curr_iter % config->window) {
+            printGlobalStats(config);
+        }
         sleep(config->stats_time);
+        ++curr_iter;
     }//End while()
 
     // TODO demonstrate that autoregressive model is not so bad
@@ -200,11 +203,12 @@ void statsLoop(struct config *config) {
 
     // TODO add ADF test code + run ADF test every window size > degree
 
-    // TODO add degree in config
-    // TODO add window size in config
+    // TODO change to compute SLO over window requests
     // TODO every time curr_iter % window_size == 0, run ADF code on window
     // TODO if ADF is below a certain threshold, compute tail latency aggregate
 
+    // TODO prevent negative RPS
+    // TODO as we get closer to SLO, or more variance, take in more samples
 
     // TODO aggregation accross windows
     // TODO feed aggregated tail latency inside PID controller
