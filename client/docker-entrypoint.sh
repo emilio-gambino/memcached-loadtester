@@ -11,6 +11,7 @@ CONNECTION=200
 RPS=10000
 NEGATIVE_EXPONENTIAL=false
 SLO=5
+PERCENTILE=90
 
 while (( ${#@} )); do
   case ${1} in
@@ -23,7 +24,8 @@ while (( ${#@} )); do
     --c=*)       CONNECTION=${1#*=} ;;
     --r=*)       RPS=${1#*=} ;;
     --ne)        NEGATIVE_EXPONENTIAL=true ;;       
-    --q=*)         SLO=${1#*=} ;;
+    --q=*)       SLO=${1#*=} ;;
+    --Q=*)       PERCENTILE=${1#*=} ;;
     *)           ARGS+=(${1}) ;;
   esac
 
@@ -59,7 +61,8 @@ elif [ "$MODE" = 'RPS' ]; then
         /usr/src/memcached/memcached_client/loader \
                 -a /usr/src/memcached/twitter_dataset/twitter_dataset_${SCALE}x \
                 -s /usr/src/memcached/memcached_client/docker_servers/docker_servers.txt \
-                -g ${GET_RATIO} -w ${WORKERS} -c ${CONNECTION} -T ${INTERVAL} $ADDITIONA_OPTION -r ${RPS} -q ${SLO}
+                -g ${GET_RATIO} -w ${WORKERS} -c ${CONNECTION} -T ${INTERVAL} $ADDITIONA_OPTION -r ${RPS} -q ${SLO} \
+                -Q ${PERCENTILE}
 elif [ "$MODE" = "bash" ]; then
         # bash
         exec /bin/bash

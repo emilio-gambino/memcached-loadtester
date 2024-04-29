@@ -4,6 +4,8 @@
 //  Author: David Meisner (meisner@umich.edu)
 //
 
+#define MAX_ITER 2000
+
 #include "stats.h"
 #include "loader.h"
 #include <assert.h>
@@ -14,6 +16,9 @@ pthread_mutex_t stats_lock = PTHREAD_MUTEX_INITIALIZER;
 struct timeval start_time;
 struct memcached_stats global_stats;
 PIDController pid;
+
+double latencies[MAX_ITER] = {0};
+int curr_iter = 0;
 
 void addSample(struct stat *stat, float value) {
     stat->s0 += 1.0;
@@ -134,6 +139,8 @@ void printGlobalStats(struct config *config) {
     else
         measurement = q90;
 
+    latencies[curr_iter] = measurement;
+    ++curr_iter;
 
     if (config->SLO != -1) {
         // Update PID struct
@@ -186,8 +193,14 @@ void statsLoop(struct config *config) {
     // TODO demonstrate that autoregressive model is not so bad
     // TOOD run the experiments
 
-    // TODO keep track of the previous latencies
     // TODO add ADF test code + run ADF test every window size > degree
+
+    // TODO add degree in config
+    // TODO add window size in config
+    // TODO every time curr_iter % window_size == 0, run ADF code on window
+    // TODO if ADF is below a certain threshold, compute tail latency aggregate
+
+
     // TODO aggregation accross windows
     // TODO feed aggregated tail latency inside PID controller
 
