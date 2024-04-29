@@ -12,6 +12,7 @@ RPS=10000
 NEGATIVE_EXPONENTIAL=false
 SLO=5
 PERCENTILE=90
+DEGREE=0
 
 while (( ${#@} )); do
   case ${1} in
@@ -26,6 +27,7 @@ while (( ${#@} )); do
     --ne)        NEGATIVE_EXPONENTIAL=true ;;       
     --q=*)       SLO=${1#*=} ;;
     --Q=*)       PERCENTILE=${1#*=} ;;
+    --b=*)       DEGREE=${1#*=} ;;
     *)           ARGS+=(${1}) ;;
   esac
 
@@ -62,7 +64,7 @@ elif [ "$MODE" = 'RPS' ]; then
                 -a /usr/src/memcached/twitter_dataset/twitter_dataset_${SCALE}x \
                 -s /usr/src/memcached/memcached_client/docker_servers/docker_servers.txt \
                 -g ${GET_RATIO} -w ${WORKERS} -c ${CONNECTION} -T ${INTERVAL} $ADDITIONA_OPTION -r ${RPS} -q ${SLO} \
-                -Q ${PERCENTILE}
+                -Q ${PERCENTILE} -b ${DEGREE}
 elif [ "$MODE" = "bash" ]; then
         # bash
         exec /bin/bash

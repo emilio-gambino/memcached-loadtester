@@ -143,7 +143,7 @@ void printGlobalStats(struct config *config) {
     ++curr_iter;
 
     for (int i = 0; i < curr_iter; ++i) {
-        printf("%lf ", latencies[curr_iter]);
+        printf("%lf ", latencies[curr_iter - 1]);
     }
     printf("\n");
 

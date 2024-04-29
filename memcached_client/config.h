@@ -70,6 +70,8 @@ struct config {
 
     float SLO;
     int measurement;
+    int degree;
+    int window;
 };
 
 #endif

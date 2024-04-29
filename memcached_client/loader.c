@@ -80,6 +80,8 @@ struct config *parseArgs(int argc, char **argv) {
     config->randomValue = 0;
     config->SLO = -1; // TODO in ms ?
     config->measurement = 90;
+    config->degree = 0;
+    config->window = degree + 5;
 
     int i;
     for (i = 0; i < MAX_SERVERS; i++) {
@@ -191,6 +193,10 @@ struct config *parseArgs(int argc, char **argv) {
                 config->measurement = atoi(optarg);
                 break;
 
+            case 'b':
+                config->degree = atoi(optarg);
+                break;
+
             case 'r':
                 config->rps = atoi(optarg);
                 break;
@@ -285,6 +291,8 @@ void printConfiguration(struct config *config) {
     printf("\n");
 
     printf("Optimizing percentile: %d\n", config->measurement);
+    printf("ADF degree: %d\n\n", config->degree);
+    printf("Sampling Window: %f\n\n", config->SLO); // TODO
     printf("Controller SLO target: %f\n\n", config->SLO);
 
 }//End printConfiguration()
