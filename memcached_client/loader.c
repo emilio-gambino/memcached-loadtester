@@ -81,7 +81,7 @@ struct config *parseArgs(int argc, char **argv) {
     config->SLO = -1; // TODO in ms ?
     config->measurement = 90;
     config->degree = 0;
-    config->window = degree + 5;
+    config->window = config->degree + 5;
 
     int i;
     for (i = 0; i < MAX_SERVERS; i++) {
@@ -90,7 +90,7 @@ struct config *parseArgs(int argc, char **argv) {
     }
 
     int c;
-    while ((c = getopt(argc, argv, "a:c:d:D:ef:g:hi:jk:l:L:m:MnN:o:p:P:ur:q:Q:Rs:S:t:T:w:W:xzZ")) != -1) {
+    while ((c = getopt(argc, argv, "a:b:c:d:D:ef:g:hi:jk:l:L:m:MnN:o:p:P:ur:q:Q:Rs:S:t:T:w:W:xzZ")) != -1) {
         switch (c) {
 
             case 'a':
