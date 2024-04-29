@@ -197,6 +197,10 @@ struct config *parseArgs(int argc, char **argv) {
                 config->degree = atoi(optarg);
                 break;
 
+            case 'W':
+                config->window = atoi(optarg);
+                break;
+
             case 'r':
                 config->rps = atoi(optarg);
                 break;
@@ -291,8 +295,8 @@ void printConfiguration(struct config *config) {
     printf("\n");
 
     printf("Optimizing percentile: %d\n", config->measurement);
-    printf("ADF degree: %d\n\n", config->degree);
-    printf("Sampling Window: %f\n\n", config->SLO); // TODO
+    printf("ADF degree: %d\n", config->degree);
+    printf("Sampling Window: %d\n", config->window);
     printf("Controller SLO target: %f\n\n", config->SLO);
 
 }//End printConfiguration()

@@ -4,7 +4,7 @@
 //  Author: David Meisner (meisner@umich.edu)
 //
 
-#define MAX_ITER 2000
+#define MAX_ITER 5000
 
 #include "stats.h"
 #include "loader.h"
@@ -142,11 +142,6 @@ void printGlobalStats(struct config *config) {
     latencies[curr_iter] = measurement;
     ++curr_iter;
 
-    for (int i = 0; i < curr_iter; ++i) {
-        printf("%lf ", latencies[curr_iter - 1]);
-    }
-    printf("\n");
-
     if (config->SLO != -1) {
         // Update PID struct
         PIDController_Update(&pid, config->SLO, measurement);
@@ -157,6 +152,11 @@ void printGlobalStats(struct config *config) {
         for (i = 0; i < config->n_workers; i++) {
             config->workers[i]->config->interarrival_dist = createExponentialDistribution(meanInterarrival);
         }
+    }
+
+    if (curr_iter >= MAX_ITER) {
+        printf("MAX ITER REACHED!\n");
+        assert(0);
     }
 
     //Reset stats
