@@ -12,8 +12,8 @@ typedef struct {
     float tau;
 
     /* Output limits */
-    //float limMin;
-    //float limMax;
+    float limMin;
+    float limMax;
 
     /* Integrator limits */
     //float limMinInt;

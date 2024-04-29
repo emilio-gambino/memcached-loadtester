@@ -59,7 +59,8 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
     */
     pid->out = proportional + pid->integrator + pid->differentiator;
 
-    /*if (pid->out > pid->limMax) {
+    // Clamp output
+    if (pid->out > pid->limMax) {
 
         pid->out = pid->limMax;
 
@@ -67,7 +68,7 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
 
         pid->out = pid->limMin;
 
-    }*/
+    }
 
     /* Store error and measurement for later use */
     pid->prevError = error;
