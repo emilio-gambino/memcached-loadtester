@@ -191,7 +191,7 @@ void statsLoop(struct config *config) {
     printf("-------------------------\n");
     while (1) {
         printf("Iteration: %d\n", curr_iter);
-        if (curr_iter % config->window) {
+        if (curr_iter % config->window == 0) {
             printGlobalStats(config);
         }
         sleep(config->stats_time);
@@ -209,6 +209,7 @@ void statsLoop(struct config *config) {
 
     // TODO prevent negative RPS
     // TODO as we get closer to SLO, or more variance, take in more samples
+    // TODO compute/print single iteration latency aswell as aggregate one
 
     // TODO aggregation accross windows
     // TODO feed aggregated tail latency inside PID controller
