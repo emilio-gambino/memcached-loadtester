@@ -179,10 +179,10 @@ void statsLoop(struct config *config) {
     // TODO tune controller parameters
     /* Controller parameters */
     float PID_KP = 100000.0f;
-    float PID_KI = 10000.0f;
+    float PID_KI = 5000.0f;
     float PID_KD = 0.5f;
     float PID_TAU = 0.02f;
-    pid = (PIDController) {PID_KP, PID_KI, PID_KD, PID_TAU, 50000, 800000,config->stats_time};
+    pid = (PIDController) {PID_KP, PID_KI, PID_KD, PID_TAU, 100000, 800000, config->stats_time};
 
     printf("Creating PID controller with KP=%f, KI=%f, KD=%f\n", PID_KP, PID_KI, PID_KD);
 
@@ -190,29 +190,38 @@ void statsLoop(struct config *config) {
     printf("Stats:\n");
     printf("-------------------------\n");
     while (1) {
-        printf("Iteration: %d\n", curr_iter);
         if (curr_iter % config->window == 0) {
+            printf("Iteration: %d\n", curr_iter);
             printGlobalStats(config);
         }
         sleep(config->stats_time);
         ++curr_iter;
     }//End while()
 
+    // Problems with PID
+    // 1. Unstable -> Take larger windows
+    // 2. Non linear, especially at kneecap point -> oscillation not well compensated by integral term
+
     // TODO demonstrate that autoregressive model is not so bad
     // TODO run the experiments
     // TODO send email with weekly updates
 
+    // TODO estimate the variance based on each iterations
+    // TODO figure out what window size to aggregate over for accurate estimation
+
     // TODO add ADF test code + run ADF test every window size > degree
+
+    // TODO Add code to both see immediate sample and aggregate over window
 
     // TODO change to compute SLO over window requests
     // TODO every time curr_iter % window_size == 0, run ADF code on window
     // TODO if ADF is below a certain threshold, compute tail latency aggregate
 
-    // TODO prevent negative RPS
+    // TODO set better bounds min max
     // TODO as we get closer to SLO, or more variance, take in more samples
     // TODO compute/print single iteration latency aswell as aggregate one
 
-    // TODO aggregation accross windows
+    // TODO aggregation across windows
     // TODO feed aggregated tail latency inside PID controller
 
     // TODO add ADF test code + run ADF test every window size > degree
