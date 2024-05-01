@@ -179,7 +179,7 @@ void statsLoop(struct config *config) {
     // TODO tune controller parameters
     /* Controller parameters */
     float PID_KP = 100000.0f;
-    float PID_KI = 5000.0f;
+    float PID_KI = 100.0f;
     float PID_KD = 0.5f;
     float PID_TAU = 0.02f;
     pid = (PIDController) {PID_KP, PID_KI, PID_KD, PID_TAU, 100000, 800000, config->stats_time};
@@ -208,6 +208,9 @@ void statsLoop(struct config *config) {
 
     // TODO estimate the variance based on each iterations
     // TODO figure out what window size to aggregate over for accurate estimation
+    // The greater the variance, the longer the window size should be
+
+    // Kneecap detection??
 
     // TODO add ADF test code + run ADF test every window size > degree
 
