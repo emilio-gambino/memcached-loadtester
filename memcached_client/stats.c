@@ -180,7 +180,7 @@ void statsLoop(struct config *config) {
     /* Controller parameters */
     float PID_KP = 100000.0f;
     float PID_KI = 500.0f;
-    float PID_KD = 100f;
+    float PID_KD = 100.0f;
     float PID_TAU = 0.02f;
     pid = (PIDController) {PID_KP, PID_KI, PID_KD, PID_TAU, 50000, 800000, config->stats_time};
 
@@ -204,7 +204,6 @@ void statsLoop(struct config *config) {
 
     // TODO demonstrate that autoregressive model is not so bad
     // TODO run the experiments
-    // TODO send email with weekly updates
 
     // TODO estimate the variance based on each iterations
     // TODO figure out what window size to aggregate over for accurate estimation
