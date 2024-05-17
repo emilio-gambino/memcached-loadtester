@@ -182,7 +182,7 @@ void statsLoop(struct config *config) {
     float PID_KI = 500.0f;
     float PID_KD = 100.0f;
     float PID_TAU = 0.02f;
-    pid = (PIDController) {PID_KP, PID_KI, PID_KD, PID_TAU, 50000, 800000, config->stats_time};
+    pid = (PIDController) {PID_KP, PID_KI, PID_KD, PID_TAU, 50000, 800000, 10, 50, config->stats_time};
 
     printf("Creating PID controller with KP=%f, KI=%f, KD=%f\n", PID_KP, PID_KI, PID_KD);
 
@@ -201,9 +201,6 @@ void statsLoop(struct config *config) {
     // Problems with PID
     // 1. Unstable -> Take larger windows
     // 2. Non linear, especially at kneecap point -> oscillation not well compensated by integral term
-
-    // TODO demonstrate that autoregressive model is not so bad
-    // TODO run the experiments
 
     // TODO estimate the variance based on each iterations
     // TODO figure out what window size to aggregate over for accurate estimation
