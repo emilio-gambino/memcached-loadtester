@@ -33,10 +33,8 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
     */
     pid->integrator = pid->integrator + 0.5f * pid->Ki * pid->T * (error + pid->prevError);
 
-    printf("Integrator: %f\n", pid->integrator);
-
     /* Anti-wind-up via integrator clamping */
-    /*if (pid->integrator > pid->limMaxInt) {
+    if (pid->integrator > pid->limMaxInt) {
 
         pid->integrator = pid->limMaxInt;
 
@@ -44,7 +42,9 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
 
         pid->integrator = pid->limMinInt;
 
-    }*/
+    }
+
+    printf("Integrator: %f\n", pid->integrator);
 
 
     /*
