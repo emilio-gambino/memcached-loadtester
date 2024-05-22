@@ -149,7 +149,7 @@ void printGlobalStats(struct config *config) {
         double *coefficients;
         double *regression_data = &(latencies[curr_iter - num_samples]);
         printf("Data: ");
-        for (int i = 0; i < config->degree + horizon - 1; ++i) {
+        for (int i = 0; i < num_samples; ++i) {
             printf("%f ", regression_data[i]);
         }
         printf("\n");
