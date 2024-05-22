@@ -88,7 +88,7 @@ double *PredictHorizon(double *data, double *coefficients, int d, int horizon) {
 
     printf("Values: ");
     for (int i = 0; i < d - 1 + horizon; ++i) {
-        printf("%f ", data[i]);
+        printf("%f ", values[i]);
     }
     printf("\n");
     free(values);
