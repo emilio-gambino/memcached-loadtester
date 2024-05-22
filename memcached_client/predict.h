@@ -85,7 +85,7 @@ double *PredictHorizon(double *data, double *coefficients, int d, int horizon) {
         for (int i = 1; i < d; ++i) {
             predictions[h] += values[h + i - 1] * coefficients[i];
         }
-        values[h + d - 1] = predictions[h];
+        values[h + d] = predictions[h];
     }
 
     printf("Values: ");
