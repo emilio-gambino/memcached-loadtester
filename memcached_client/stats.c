@@ -11,13 +11,14 @@
 #include <assert.h>
 #include "worker.h"
 #include "PID.h"
+#include "predict.h"
 
 pthread_mutex_t stats_lock = PTHREAD_MUTEX_INITIALIZER;
 struct timeval start_time;
 struct memcached_stats global_stats;
 PIDController pid;
 
-double latencies[MAX_ITER] = {0};
+double latencies[MAX_ITER] = {0.0};
 int curr_iter = 0;
 
 void addSample(struct stat *stat, float value) {
@@ -140,6 +141,32 @@ void printGlobalStats(struct config *config) {
         measurement = 1000 * q90;
 
     latencies[curr_iter] = measurement;
+
+    int horizon = 5;
+    int num_samples = 50; // Number of regression samples
+    if (curr_iter >= num_samples && curr_iter % horizon == 0) {
+        printf("Enough samples, starting regression!\n");
+        // 1. Get AR coefficients
+        double *coefficients;
+        double *regression_data = (latencies + curr_iter - num_samples);
+        double *prediction_data = (latencies + curr_iter - config->degree);
+        double adf = ADF_Test(latencies + (curr_iter - Nn), &coefficients, num_samples, config->degree);
+        // 2. Check for ADF statistic
+        printf("ADF stat: %f\n", adf);
+        // 3. If stationary, predict for next horizon
+        double *predicted = PredictHorizon(prediction_data, coefficients, config->degree, horizon);
+
+        // Save the predictions
+        // 4. Adapt input using controller
+        printf("Predictions: ");
+        for (int i = 0; i < horizon; ++i) {
+            printf("%f ", predicted[i]);
+        }
+        printf("\n");
+
+        free(coefficients);
+        free(predicted);
+    }
 
     if (config->SLO != -1) {
         // Update PID struct
