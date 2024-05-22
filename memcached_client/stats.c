@@ -151,6 +151,11 @@ void printGlobalStats(struct config *config) {
         double *regression_data = (latencies + curr_iter - num_samples);
         double *prediction_data = (latencies + curr_iter - config->degree);
         double adf = ADF_Test(regression_data, &coefficients, num_samples, config->degree);
+        printf("Coefficients: ");
+        for (int i = 0; i < d; ++i) {
+            printf("%f ", coefficients[i]);
+        }
+
         // 2. Check for ADF statistic
         printf("ADF stat: %f\n", adf);
         // 3. If stationary, predict for next horizon
