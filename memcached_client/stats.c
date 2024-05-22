@@ -126,11 +126,11 @@ void printGlobalStats(struct config *config) {
            1000 * global_stats.response_time.min, 1000 * global_stats.response_time.max,
            getAvg(&global_stats.get_size));
     int i;
-    printf("Outstanding requests per worker:\n");
+    /*printf("Outstanding requests per worker:\n");
     for (i = 0; i < config->n_workers; i++) {
         printf("%d ", config->workers[i]->n_requests);
     }
-    printf("\n");
+    printf("\n");*/
 
     double measurement;
     if (config->measurement == 95)
