@@ -74,7 +74,7 @@ double ADF_Test(double *data, double **coefficients, int N, int D) {
 double *PredictHorizon(double *data, double *coefficients, int d, int horizon) {
 
     double *predictions = calloc(horizon, sizeof(double));
-    double *values = calloc(d - 1 + horizon, sizeof(double)); // Account for intercept
+    double *values = calloc(d - 1 + horizon, sizeof(double)); // Account for intercept coefficient
     memcpy(values, data, d - 1);
 
     // Predict for the next horizon
@@ -87,7 +87,7 @@ double *PredictHorizon(double *data, double *coefficients, int d, int horizon) {
     }
 
     printf("Values: ");
-    for (int i = 0; i < d - 1 + horizon; ++i) {
+    for (int i = 0; i < d + horizon; ++i) {
         printf("%f ", values[i]);
     }
     printf("\n");

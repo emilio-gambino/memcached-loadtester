@@ -148,7 +148,7 @@ void printGlobalStats(struct config *config) {
         // 1. Get AR coefficients
         double *coefficients;
         double *regression_data = &(latencies[curr_iter - num_samples]);
-        double *prediction_data = &(latencies[curr_iter - config->degree]);
+        double *prediction_data = &(latencies[curr_iter - config->degree + 1]);
         double adf = ADF_Test(regression_data, &coefficients, num_samples, config->degree);
         printf("Coefficients: ");
         for (int i = 0; i < config->degree; ++i) {
