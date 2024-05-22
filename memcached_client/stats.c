@@ -6,12 +6,12 @@
 
 #define MAX_ITER 5000
 
+#include "predict.h"
 #include "stats.h"
 #include "loader.h"
 #include <assert.h>
 #include "worker.h"
 #include "PID.h"
-#include "predict.h"
 
 pthread_mutex_t stats_lock = PTHREAD_MUTEX_INITIALIZER;
 struct timeval start_time;
@@ -150,7 +150,7 @@ void printGlobalStats(struct config *config) {
         double *coefficients;
         double *regression_data = (latencies + curr_iter - num_samples);
         double *prediction_data = (latencies + curr_iter - config->degree);
-        double adf = ADF_Test(latencies + (curr_iter - Nn), &coefficients, num_samples, config->degree);
+        double adf = ADF_Test(regression_data, &coefficients, num_samples, config->degree);
         // 2. Check for ADF statistic
         printf("ADF stat: %f\n", adf);
         // 3. If stationary, predict for next horizon

@@ -58,7 +58,7 @@ double ADF_Test(double *data, double **coefficients, int N, int D) {
     double SE = ComputeSE(X, y, *coefficients, n, d); // TODO pass index?
 
     // Compute ADF statistic
-    double gamma = coefficients[1];  // Coefficient for lagged difference (y_t-1)
+    double gamma = (*coefficients)[1];  // Coefficient for lagged difference (y_t-1)
     double ADF = gamma / SE;
 
     // Free matrices
