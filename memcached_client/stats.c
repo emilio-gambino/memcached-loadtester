@@ -155,6 +155,11 @@ void printGlobalStats(struct config *config) {
             printf("%f ", coefficients[i]);
         }
         printf("\n");
+        printf("Data: ");
+        for (int i = 0; i < config->degree + horizon - 1; ++i) {
+            printf("%f ", prediction_data[i]);
+        }
+        printf("\n");
 
         // 2. Check for ADF statistic
         printf("ADF stat: %f\n", adf);
