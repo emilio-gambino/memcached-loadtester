@@ -145,7 +145,6 @@ void printGlobalStats(struct config *config) {
     int horizon = 5;
     int num_samples = 50; // Number of regression samples
     if (curr_iter >= num_samples && curr_iter % horizon == 0) {
-        printf("Enough samples, starting regression!\n");
         // 1. Get AR coefficients
         double *coefficients;
         double *regression_data = &(latencies[curr_iter - num_samples]);
@@ -155,6 +154,7 @@ void printGlobalStats(struct config *config) {
         for (int i = 0; i < config->degree; ++i) {
             printf("%f ", coefficients[i]);
         }
+        printf("\n");
 
         // 2. Check for ADF statistic
         printf("ADF stat: %f\n", adf);

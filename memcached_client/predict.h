@@ -77,19 +77,20 @@ double *PredictHorizon(double *data, double *coefficients, int d, int horizon) {
     double *values = calloc(d - 1 + horizon, sizeof(double)); // Account for intercept
     memcpy(values, data, d - 1);
 
-    printf("Values: ");
-    for (int i = 0; i < d - 1 + horizon; ++i) {
-        printf("%f ", data[i]);
-    }
-    printf("\n");
-
     // Predict for the next horizon
     for (int h = 0; h < horizon; ++h) {
         predictions[h] = coefficients[0];
         for (int i = 1; i < d; ++i) {
             predictions[h] += values[h + i - 1] * coefficients[i];
         }
+        values[h + d - 1] = predictions[h]
     }
+
+    printf("Values: ");
+    for (int i = 0; i < d - 1 + horizon; ++i) {
+        printf("%f ", data[i]);
+    }
+    printf("\n");
     free(values);
 
     return predictions;
