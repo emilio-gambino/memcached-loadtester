@@ -142,19 +142,15 @@ void printGlobalStats(struct config *config) {
 
     latencies[curr_iter] = measurement;
 
-    int horizon = 5;
+    // AR model logic
+    /*int horizon = 5;
     int num_samples = 100; // Number of regression samples
     if (curr_iter >= num_samples && curr_iter % horizon == 0) {
         // 1. Get AR coefficients
         double *coefficients;
-        double *regression_data = &(latencies[curr_iter - num_samples]);
-        printf("Data: ");
-        for (int i = 0; i < num_samples; ++i) {
-            printf("%f ", regression_data[i]);
-        }
-        printf("\n");
-        double *prediction_data = &(latencies[curr_iter - config->degree + 1]);
-        double adf = ADF_Test(regression_data, &coefficients, num_samples, config->degree);
+        double *predicted = calloc(horizon, sizeof(double));
+
+        double adf = ADF_Test(regression_data, &coefficients, num_samples, config->degree, predicted, horizon);
         printf("Coefficients: ");
         for (int i = 0; i < config->degree; ++i) {
             printf("%f ", coefficients[i]);
@@ -164,7 +160,6 @@ void printGlobalStats(struct config *config) {
         // 2. Check for ADF statistic
         printf("ADF stat: %f\n", adf);
         // 3. If stationary, predict for next horizon
-        double *predicted = PredictHorizon(prediction_data, coefficients, config->degree, horizon);
 
         // Save the predictions
         // 4. Adapt input using controller
@@ -176,8 +171,9 @@ void printGlobalStats(struct config *config) {
 
         free(coefficients);
         free(predicted);
-    }
+    }*/
 
+    // PID Controller logic
     if (config->SLO != -1) {
         // Update PID struct
         PIDController_Update(&pid, config->SLO, measurement);

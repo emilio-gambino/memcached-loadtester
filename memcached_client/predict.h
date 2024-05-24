@@ -3,7 +3,7 @@
 #include <string.h>
 #include "math.h"
 
-double ADF_Test(double *data, double **coefficients, int N, int D);
+double ADF_Test(double *data, double **coefficients, int N, int D, double *predictions, int horizon);
 
 double ComputeSE(double **X, double *y, double *coefficients, int n, int d);
 
@@ -12,7 +12,7 @@ void OLS(double **X, const double *y, double *beta, int N, int D);
 void InverseMatrix(double **matrix, double **inverse, int n);
 
 // Inputs: a window of data with N samples, and D, the number of coefficients to fit
-double ADF_Test(double *data, double **coefficients, int N, int D) {
+double ADF_Test(double *data, double **coefficients, int N, int D, double *predictions, int horizon) {
 
     // Compute diff values (y_t - y_t-1)
     double diff[N - 1];
@@ -45,6 +45,16 @@ double ADF_Test(double *data, double **coefficients, int N, int D) {
 
     // Fit the coefficients
     OLS(X, y, *coefficients, n, d);
+
+    double **pred_tuple = calloc(horizon, sizeof(double *));
+
+    // TODO predict over the horizon
+    for (int i = 0; i < horizon; ++i) {
+        for (int j = 0; j < d; ++j) {
+            predictions[i] += *coefficients[j] * X[n - i - 1][j];
+        }
+        // TODO add a new tuple using the prediction
+    }
 
     // Print coefficients
     /*FILE *file = fopen("coeff.txt", "w");
