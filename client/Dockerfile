@@ -22,5 +22,5 @@ COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
-USER memcache
+#USER memcache
 CMD ["/bin/bash"]

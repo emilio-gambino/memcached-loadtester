@@ -47,6 +47,13 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
     OLS(X, y, *coefficients, n, d);
 
     double **pred_tuple = calloc(horizon, sizeof(double *));
+    for (int i = 0; i < horizon; ++i) {
+        pred_tuple[i] = calloc(d, sizeof(double));
+    }
+    // TODO fill in the first pred tuples
+    for (int i = n - horizon; i < n; ++i) {
+
+    }
 
     // TODO predict over the horizon
     for (int i = 0; i < horizon; ++i) {
@@ -55,6 +62,11 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
         }
         // TODO add a new tuple using the prediction
     }
+
+    for (int i = 0; i < horizon; ++i) {
+        free(pred_tuple[i]);
+    }
+    free(pred_tuple);
 
     // Print coefficients
     /*FILE *file = fopen("coeff.txt", "w");
