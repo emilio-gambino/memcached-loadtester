@@ -52,7 +52,7 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
     // Translate ADF coefficients into AR coefficients
     ARCoefficients(adf_coefficients, *coefficients, d);
 
-    double *pred_values = calloc(horizon + d - 1, sizeof(double));
+    double *pred_values = calloc(horizon + d, sizeof(double));
     for (int i = 0; i < d - 1; ++i) {
         pred_values[i] = data[n - (d - 1) + i];
     }
