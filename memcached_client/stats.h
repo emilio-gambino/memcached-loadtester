@@ -34,7 +34,7 @@ struct stat {
   int fulls[1000];
   int thousands[1000];
   int millis[50010];
-  int micros[10000];
+  int micros[20000];
 };
 
 struct memcached_stats {

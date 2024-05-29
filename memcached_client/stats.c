@@ -28,7 +28,7 @@ void addSample(struct stat *stat, float value) {
     stat->min = fmin(stat->min, value);
     stat->max = fmax(stat->max, value);
 
-    if (value < .001) {
+    if (value < .002) {
         int bin = (int) (value * 10000000);
         stat->micros[bin] += 1;
     } else if (value < 5.0) {
@@ -143,13 +143,14 @@ void printGlobalStats(struct config *config) {
     latencies[curr_iter] = measurement;
 
     // AR model logic
-    /*int horizon = 5;
+    int horizon = 5;
     int num_samples = 100; // Number of regression samples
     if (curr_iter >= num_samples && curr_iter % horizon == 0) {
         // 1. Get AR coefficients
         double *coefficients;
         double *predicted = calloc(horizon, sizeof(double));
 
+        double *regression_data = &(latencies[curr_iter - num_samples]);
         double adf = ADF_Test(regression_data, &coefficients, num_samples, config->degree, predicted, horizon);
         printf("Coefficients: ");
         for (int i = 0; i < config->degree; ++i) {
@@ -171,7 +172,7 @@ void printGlobalStats(struct config *config) {
 
         free(coefficients);
         free(predicted);
-    }*/
+    }
 
     // PID Controller logic
     if (config->SLO != -1) {
@@ -230,6 +231,9 @@ void statsLoop(struct config *config) {
         sleep(config->stats_time);
         ++curr_iter;
     }//End while()
+
+    // TODO change sensitivity of bins
+    // AR -> prediction, Controller
 
     // Problems with PID
     // 1. Unstable -> Take larger windows

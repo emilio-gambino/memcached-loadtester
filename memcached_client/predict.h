@@ -5,6 +5,8 @@
 
 double ADF_Test(double *data, double **coefficients, int N, int D, double *predictions, int horizon);
 
+void ARCoefficients(double *adf_coefficients, double *ar_coefficients, int d);
+
 double ComputeSE(double **X, double *y, double *coefficients, int n, int d);
 
 void OLS(double **X, const double *y, double *beta, int N, int D);
@@ -20,7 +22,7 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
         diff[i - 1] = data[i] - data[i - 1];
     } // [D_y1, D_y2, ..., D_y(N-1)]
 
-    int d = D + 2; // Number of lag coefficients (D) + gamma term + intercept + trend
+    int d = D + 2; // Number of lag coefficients (D) + gamma term + intercept
     int n = N - 1 - D; // Number of usable diff samples, i.e. size of y
 
     // Create regression matrices
@@ -40,33 +42,31 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
         }
     }
 
-    // Regression coefficients
+    // ADF Regression coefficients
+    double *adf_coefficients = calloc(d, sizeof(double));
     *coefficients = calloc(d, sizeof(double));
 
     // Fit the coefficients
-    OLS(X, y, *coefficients, n, d);
+    OLS(X, y, adf_coefficients, n, d);
 
-    double **pred_tuple = calloc(horizon, sizeof(double *));
-    for (int i = 0; i < horizon; ++i) {
-        pred_tuple[i] = calloc(d, sizeof(double));
+    // Translate ADF coefficients into AR coefficients
+    ARCoefficients(adf_coefficients, *coefficients, d);
+
+    // TODO predict using AR coefficients
+    double *pred_values = calloc(horizon + d - 1, sizeof(double));
+    for (int i = 0; i < d - 1; ++i) {
+        pred_values[i] = data[n - (d - 1) + i];
     }
-    // TODO fill in the first pred tuples
-    for (int i = n - horizon; i < n; ++i) {
 
-    }
-
-    // TODO predict over the horizon
     for (int i = 0; i < horizon; ++i) {
-        for (int j = 0; j < d; ++j) {
-            predictions[i] += *coefficients[j] * X[n - i - 1][j];
+        predictions[i] = *(coefficients)[0]; // Intercept
+        for (int j = 1; j < d; ++j) {
+            predictions[i] += pred_values[d - 1 + i - j] * *(coefficients)[j];
         }
-        // TODO add a new tuple using the prediction
+        pred_values[i + d - 1] = predictions[i];
     }
 
-    for (int i = 0; i < horizon; ++i) {
-        free(pred_tuple[i]);
-    }
-    free(pred_tuple);
+    free(pred_values);
 
     // Print coefficients
     /*FILE *file = fopen("coeff.txt", "w");
@@ -77,10 +77,10 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
     fclose(file);*/
 
     // Compute Standard error for Gamma
-    double SE = ComputeSE(X, y, *coefficients, n, d); // TODO pass index?
+    double SE = ComputeSE(X, y, adf_coefficients, n, d); // TODO pass index?
 
     // Compute ADF statistic
-    double gamma = (*coefficients)[1];  // Coefficient for lagged difference (y_t-1)
+    double gamma = adf_coefficients[1];  // Coefficient gamma for lagged difference (y_t-1)
     double ADF = gamma / SE;
 
     // Free matrices
@@ -89,8 +89,20 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
     }
     free(X);
     free(y);
+    free(adf_coefficients);
 
     return ADF;
+}
+
+// Takes coefficients from diff terms (y_t - y_t-1) into non diff terms y_t
+void ARCoefficients(double *adf_coefficients, double *ar_coefficients, int d) {
+
+    ar_coefficients[0] = adf_coefficients[0]; // Intercept is the same
+    ar_coefficients[1] = 1 + adf_coefficients[1] + adf_coefficients[2]; // y_t-1, coeff = (1 + gamma + delta_1)
+    for (int i = 2; i < d - 1; ++i) {
+        ar_coefficients[i] = adf_coefficients[i] - adf_coefficients[i - 1]; // delta_i - delta_i-1
+    }
+    ar_coefficients[d - 1] = -adf_coefficients[d - 1]; // Last term
 }
 
 double *PredictHorizon(double *data, double *coefficients, int d, int horizon) {
