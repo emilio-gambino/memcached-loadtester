@@ -54,7 +54,7 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
 
     double *pred_values = calloc(horizon + d - 1, sizeof(double));
     for (int i = 0; i < d - 1; ++i) {
-        pred_values[i] = data[n - d - 1 + i];
+        pred_values[i] = data[n - (d - 1) + i];
     }
     printf("Here\n");
 
@@ -63,9 +63,9 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
         for (int j = 1; j < d; ++j) {
             predictions[i] += pred_values[d - 1 + i - j] * *(coefficients)[j];
         }
+        printf("Here2\n");
         pred_values[i + d - 1] = predictions[i];
     }
-    printf("Here2\n");
 
     free(pred_values);
 
