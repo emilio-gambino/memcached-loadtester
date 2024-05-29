@@ -52,16 +52,16 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
     // Translate ADF coefficients into AR coefficients
     ARCoefficients(adf_coefficients, *coefficients, d);
 
-    double *pred_values = calloc(horizon + d, sizeof(double));
+    double *pred_values = calloc(horizon + d - 1, sizeof(double));
     for (int i = 0; i < d - 1; ++i) {
         pred_values[i] = data[n - (d - 1) + i];
     }
     printf("Here\n");
 
     for (int i = 0; i < horizon; ++i) {
-        predictions[i] = *(coefficients)[0]; // Intercept
+        predictions[i] = (*coefficients)[0]; // Intercept
         for (int j = 1; j < d; ++j) {
-            predictions[i] += pred_values[d - 1 + i - j] * *(coefficients)[j];
+            predictions[i] += pred_values[d - 1 + i - j] * (*coefficients)[j];
         }
         printf("Here2\n");
         pred_values[i + d - 1] = predictions[i];
