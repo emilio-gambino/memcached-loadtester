@@ -216,7 +216,7 @@ void statsLoop(struct config *config) {
     float PID_KI = 2000.0f;
     float PID_KD = 200.0f;
     float PID_TAU = 0.02f;
-    pid = (PIDController) {PID_KP, PID_KI, PID_KD, PID_TAU, 50000, 800000, 0, 100000, config->stats_time};
+    pid = (PIDController) {PID_KP, PID_KI, PID_KD, PID_TAU, 50000, 800000, 0, 200000, config->stats_time};
 
     printf("Creating PID controller with KP=%f, KI=%f, KD=%f\n", PID_KP, PID_KI, PID_KD);
 
