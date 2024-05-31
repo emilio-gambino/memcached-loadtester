@@ -3,7 +3,7 @@
 #include <string.h>
 #include "math.h"
 
-double ADF_Test(double *data, double **coefficients, int N, int D, double *predictions, int horizon);
+double ADF_Test(double *data, double *coefficients, int N, int D, double *predictions, int horizon);
 
 void ARCoefficients(double *adf_coefficients, double *ar_coefficients, int d);
 
@@ -14,7 +14,7 @@ void OLS(double **X, const double *y, double *beta, int N, int D);
 void InverseMatrix(double **matrix, double **inverse, int n);
 
 // Inputs: a window of data with N samples, and D, the number of coefficients to fit
-double ADF_Test(double *data, double **coefficients, int N, int D, double *predictions, int horizon) {
+double ADF_Test(double *data, double *coefficients, int N, int D, double *predictions, int horizon) {
 
     // Compute diff values (y_t - y_t-1)
     double diff[N - 1];
@@ -44,10 +44,9 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
 
     // ADF Regression coefficients
     double *adf_coefficients = calloc(d, sizeof(double));
-    *coefficients = calloc(d, sizeof(double));
 
     printf("OLS\n");
-    printf("%p %p\n", adf_coefficients, *coefficients);
+    printf("%p %p\n", adf_coefficients, coefficients);
 
     // Fit the coefficients
     OLS(X, y, adf_coefficients, n, d);
@@ -61,11 +60,11 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
     printf("Trying to compute AR Coeff:\n");
 
     // Translate ADF coefficients into AR coefficients
-    ARCoefficients(adf_coefficients, *coefficients, d);
+    ARCoefficients(adf_coefficients, coefficients, d);
 
     printf("AR Coefficients: ");
     for (int i = 0; i < d; ++i) {
-        printf("%f ", *coefficients[i]);
+        printf("%f ", coefficients[i]);
     }
     printf("\n");
 
@@ -80,9 +79,9 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
     printf("\n");
 
     for (int i = 0; i < horizon; ++i) {
-        predictions[i] = (*coefficients)[0]; // Intercept
+        predictions[i] = coefficients[0]; // Intercept
         for (int j = 1; j < d; ++j) {
-            predictions[i] += pred_values[d - 1 + i - j] * (*coefficients)[j];
+            predictions[i] += pred_values[d - 1 + i - j] * coefficients[j];
         }
         pred_values[i + d - 1] = predictions[i];
     }
