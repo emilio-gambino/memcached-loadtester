@@ -144,7 +144,7 @@ void printGlobalStats(struct config *config) {
 
     // AR model logic
     int horizon = 5;
-    int num_samples = 50; // Number of regression samples
+    int num_samples = 20; // Number of regression samples
     if (curr_iter >= num_samples && curr_iter % horizon == 0) {
         // 1. Get AR coefficients
         double *coefficients;
