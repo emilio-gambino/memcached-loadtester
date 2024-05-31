@@ -42,6 +42,12 @@ double ADF_Test(double *data, double *coefficients, int N, int D, double *predic
         }
     }
 
+    double **I = calloc(n, sizeof(double *));
+    for (int i = 0; i < n; ++i) {
+        I[i] = calloc(7, sizeof(double));
+    }
+
+
     // ADF Regression coefficients
     double *adf_coefficients = calloc(d, sizeof(double));
 
