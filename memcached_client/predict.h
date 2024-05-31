@@ -46,8 +46,12 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
     double *adf_coefficients = calloc(d, sizeof(double));
     *coefficients = calloc(d, sizeof(double));
 
+    printf("OLS\n");
+
     // Fit the coefficients
     OLS(X, y, adf_coefficients, n, d);
+
+    printf("Trying to compute AR Coeff:\n");
 
     // Translate ADF coefficients into AR coefficients
     ARCoefficients(adf_coefficients, *coefficients, d);
