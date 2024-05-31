@@ -66,7 +66,7 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
     for (int i = 0; i < horizon; ++i) {
         predictions[i] = (*coefficients)[0]; // Intercept
         for (int j = 1; j < d; ++j) {
-            predictions[i] += pred_values[d - 1 + i - j] * (*coefficients)[j];
+            predictions[i] += pred_values[i + j - 1] * (*coefficients)[j];
         }
         pred_values[i + d - 1] = predictions[i];
     }
