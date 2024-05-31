@@ -47,6 +47,7 @@ double ADF_Test(double *data, double **coefficients, int N, int D, double *predi
     *coefficients = calloc(d, sizeof(double));
 
     printf("OLS\n");
+    printf("%p %p\n", adf_coefficients, *coefficients);
 
     // Fit the coefficients
     OLS(X, y, adf_coefficients, n, d);
@@ -114,9 +115,11 @@ void ARCoefficients(double *adf_coefficients, double *ar_coefficients, int d) {
     ar_coefficients[0] = adf_coefficients[0]; // Intercept is the same
     ar_coefficients[1] = 1 + adf_coefficients[1] + adf_coefficients[2]; // y_t-1, coeff = (1 + gamma + delta_1)
     for (int i = 2; i < d - 1; ++i) {
+        printf("%d ", i);
         ar_coefficients[i] = adf_coefficients[i] - adf_coefficients[i - 1]; // delta_i - delta_i-1
     }
-    ar_coefficients[d - 1] = -adf_coefficients[d - 1]; // Last term
+    printf("%d\n", d - 1);
+    ar_coefficients[d - 1] = -(adf_coefficients[d - 1]); // Last term
 }
 
 double *PredictHorizon(double *data, double *coefficients, int d, int horizon) {
