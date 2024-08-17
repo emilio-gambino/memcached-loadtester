@@ -351,7 +351,9 @@ void fit_AR_model(double *data, int size) {
     double MSEtrain = model->test();
     cout << "MSE training: " << MSEtrain << endl;
 
-    Data pred = model->predictOOS(5);
+    //int horizon = 5;
+    //int pred = model->order < horizon ? model->order : horizon;
+    Data pred = model->predictOOS(min(5, model->order));
     cout << "Predicted: " << endl;
     pred.print();
 }
