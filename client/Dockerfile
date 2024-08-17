@@ -5,7 +5,7 @@ RUN groupadd -r memcache && useradd -r -g memcache memcache
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN buildDeps='curl gcc libc6-dev make' \
+RUN buildDeps='curl gcc g++ libc6-dev make' \
 	&& set -x \
 	&& apt-get update && apt-get install -y $buildDeps libevent-dev vim --no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/* \
