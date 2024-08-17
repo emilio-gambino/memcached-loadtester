@@ -281,7 +281,9 @@ Data ARmodel::predictOOS(const int N) {
 
     cout << "Predictions size: " << Predictions.sizeArray << endl;
 
-    for (int t = data.sizeArray; t < data.sizeArray + N; t++) {
+    int start = Predictions.sizeArray;
+
+    for (int t = start; t < start + N; t++) {
         double sum = 0;
 
         // here computing Xhat of j for j>data.sizeArray
