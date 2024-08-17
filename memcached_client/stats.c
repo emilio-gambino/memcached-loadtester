@@ -149,7 +149,7 @@ void printGlobalStats(struct config *config) {
     int num_samples = 20; // Number of regression samples
     if (curr_iter >= num_samples && curr_iter % horizon == 0) {
         double *regression_data = &(latencies[curr_iter - num_samples]);
-        fit_AR_model(regression_data, 3);
+        fit_AR_model(regression_data, num_samples);
         // 1. Get AR coefficients
         /*double *coefficients = calloc(config->degree, sizeof(double));
         double *predicted = calloc(horizon, sizeof(double));
