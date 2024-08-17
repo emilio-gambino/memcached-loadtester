@@ -348,7 +348,7 @@ double ARmodel::test(Data inputs) {
 }
 
 
-void fit_AR_model(double *data, int size) {
+void fit_AR_model(double *data, int size, int pred) {
     Data d = Data(data, size, "Latency samples");
     ARmodel *model = new ARmodel(d);
 
@@ -359,7 +359,7 @@ void fit_AR_model(double *data, int size) {
     cout << "MSE training: " << MSEtrain << endl;
 
 
-    Data pred = model->predictOOS(5);
+    Data pred = model->predictOOS(pred);
     cout << "Predicted: " << endl;
     pred.print();
 }

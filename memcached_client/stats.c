@@ -30,7 +30,7 @@ void addSample(struct stat *stat, float value) {
     stat->min = fmin(stat->min, value);
     stat->max = fmax(stat->max, value);
 
-    if (value < .002) {
+    if (value < .004) {
         int bin = (int) (value * 10000000);
         stat->micros[bin] += 1;
     } else if (value < 5.0) {
@@ -146,10 +146,11 @@ void printGlobalStats(struct config *config) {
 
     // AR model logic
     int horizon = 20;
-    int num_samples = 70; // Number of regression samples
+    int pred = 2;
+    int num_samples = 20; // Number of regression samples
     if (curr_iter >= num_samples && curr_iter % horizon == 0) {
         double *regression_data = &(latencies[curr_iter - num_samples]);
-        fit_AR_model(regression_data, num_samples);
+        fit_AR_model(regression_data, num_samples, pred);
         // 1. Get AR coefficients
         /*double *coefficients = calloc(config->degree, sizeof(double));
         double *predicted = calloc(horizon, sizeof(double));
