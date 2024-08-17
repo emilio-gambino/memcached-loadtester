@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-void fit_AR_model(double *data, int size);
+void fit_AR_model(double *data, int size, int pred);
 
 #ifdef __cplusplus
 }
