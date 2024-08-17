@@ -13,6 +13,8 @@
 #include "worker.h"
 #include "PID.h"
 
+#include "cpp/ARmodel.h"
+
 pthread_mutex_t stats_lock = PTHREAD_MUTEX_INITIALIZER;
 struct timeval start_time;
 struct memcached_stats global_stats;
@@ -146,8 +148,10 @@ void printGlobalStats(struct config *config) {
     int horizon = 5;
     int num_samples = 70; // Number of regression samples
     if (curr_iter >= num_samples && curr_iter % horizon == 0) {
+        double* s = calloc(3, sizeof(double));
+        fit_AR_model(s, 3);
         // 1. Get AR coefficients
-        double *coefficients = calloc(config->degree, sizeof(double));
+        /*double *coefficients = calloc(config->degree, sizeof(double));
         double *predicted = calloc(horizon, sizeof(double));
 
         double *regression_data = &(latencies[curr_iter - num_samples]);
@@ -171,7 +175,7 @@ void printGlobalStats(struct config *config) {
         printf("\n");
 
         free(coefficients);
-        free(predicted);
+        free(predicted);*/
     }
 
     // PID Controller logic

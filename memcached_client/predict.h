@@ -331,7 +331,7 @@ void InverseMatrix(double **matrix, double **inverse, int n) {
     printf("ADF stat: %lf\n", adf);
 
     // Sample data
-    /*FILE *fileX = fopen("X_coeff.txt", "r");
+    FILE *fileX = fopen("X_coeff.txt", "r");
     FILE *fileY = fopen("y_coeff.txt", "r");
 
     double **X = (double **) malloc(7 * sizeof(double *));

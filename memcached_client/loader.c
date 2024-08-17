@@ -371,7 +371,6 @@ void cleanUp(struct config *config) {
     free(config);
 }
 
-
 int main(int argc, char **argv) {
 
     struct config *config = parseArgs(argc, argv);
