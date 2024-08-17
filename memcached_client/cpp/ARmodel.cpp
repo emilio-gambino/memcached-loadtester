@@ -311,6 +311,8 @@ double ARmodel::test() {
     for (int i = order; i < data.sizeArray; i++) {
         errors += pow(predictions.at(i - order) - data.at(i), 2);
     }
+    cout << "Data size: " << data.sizeArray << endl;
+    cout << "Order: " << order << endl;
 
     return errors / static_cast<double>(data.sizeArray - order);
 
