@@ -359,9 +359,9 @@ void fit_AR_model(double *data, int size, int pred) {
     cout << "MSE training: " << MSEtrain << endl;
 
 
-    Data pred = model->predictOOS(pred);
+    Data p = model->predictOOS(pred);
     cout << "Predicted: " << endl;
-    pred.print();
+    p.print();
 }
 
 
