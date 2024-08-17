@@ -272,11 +272,14 @@ Data ARmodel::predict() {
 // predict out of sample (predict after the end of the provided data)
 Data ARmodel::predictOOS(const int N) {
     Data Predictions = Data();
+    cout << "Data size: " << data.sizeArray << endl;
 
     // add first values to be able to apply recurrence relationship
     for (int t = data.sizeArray - order; t < data.sizeArray; t++) {
         Predictions.addItems(data.at(t));
     }
+
+    cout << "Predictions size: " << Predictions.sizeArray << endl;
 
     for (int t = data.sizeArray; t < data.sizeArray + N; t++) {
         double sum = 0;
@@ -351,9 +354,8 @@ void fit_AR_model(double *data, int size) {
     double MSEtrain = model->test();
     cout << "MSE training: " << MSEtrain << endl;
 
-    //int horizon = 5;
-    //int pred = model->order < horizon ? model->order : horizon;
-    Data pred = model->predictOOS(min(5, model->order));
+
+    Data pred = model->predictOOS(5);
     cout << "Predicted: " << endl;
     pred.print();
 }
