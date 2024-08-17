@@ -146,15 +146,14 @@ void printGlobalStats(struct config *config) {
 
     // AR model logic
     int horizon = 5;
-    int num_samples = 70; // Number of regression samples
+    int num_samples = 20; // Number of regression samples
     if (curr_iter >= num_samples && curr_iter % horizon == 0) {
-        double* s = calloc(3, sizeof(double));
-        fit_AR_model(s, 3);
+        double *regression_data = &(latencies[curr_iter - num_samples]);
+        fit_AR_model(regression_data, 3);
         // 1. Get AR coefficients
         /*double *coefficients = calloc(config->degree, sizeof(double));
         double *predicted = calloc(horizon, sizeof(double));
 
-        double *regression_data = &(latencies[curr_iter - num_samples]);
         double adf = ADF_Test(regression_data, coefficients, num_samples, config->degree, predicted, horizon);
         printf("Coefficients: ");
         for (int i = 0; i < config->degree; ++i) {
