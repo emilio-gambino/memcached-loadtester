@@ -150,7 +150,8 @@ void printGlobalStats(struct config *config) {
     int num_samples = 20; // Number of regression samples
     if (curr_iter >= num_samples && curr_iter % horizon == 0) {
         double *regression_data = &(latencies[curr_iter - num_samples]);
-        fit_AR_model(regression_data, num_samples, pred);
+        //fit_AR_model(regression_data, num_samples, pred);
+
         // 1. Get AR coefficients
         /*double *coefficients = calloc(config->degree, sizeof(double));
         double *predicted = calloc(horizon, sizeof(double));
@@ -216,11 +217,11 @@ void statsLoop(struct config *config) {
 
     // TODO tune controller parameters
     /* Controller parameters */
-    float PID_KP = 45000.0f;
+    float PID_KP = 100000.0f;
     float PID_KI = 1800.0f;
     float PID_KD = 200.0f;
     float PID_TAU = 0.02f;
-    pid = (PIDController) {PID_KP, PID_KI, PID_KD, PID_TAU, 50000, 800000, 0, 200000, config->stats_time};
+    pid = (PIDController) {PID_KP, PID_KI, PID_KD, PID_TAU, 50000, 800000, 0, 2000000, config->stats_time};
 
     printf("Creating PID controller with KP=%f, KI=%f, KD=%f\n", PID_KP, PID_KI, PID_KD);
 
