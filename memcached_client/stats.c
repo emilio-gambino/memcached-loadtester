@@ -30,7 +30,7 @@ void addSample(struct stat *stat, float value) {
     stat->min = fmin(stat->min, value);
     stat->max = fmax(stat->max, value);
 
-    if (value < .004) {
+    if (value < .002) {
         int bin = (int) (value * 10000000);
         stat->micros[bin] += 1;
     } else if (value < 5.0) {
