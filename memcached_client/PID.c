@@ -60,7 +60,8 @@ float PIDController_Update(PIDController *pid, float setpoint, float measurement
     /*
     * Compute output and apply limits
     */
-    pid->out = proportional + pid->integrator + pid->differentiator;
+    //pid->out = proportional + pid->integrator + pid->differentiator;
+    pid->out = pid->out * 0.8 + 0.2 * (proportional + pid->integrator + pid->differentiator); // Damping
 
     // Clamp output
     if (pid->out > pid->limMax) {
