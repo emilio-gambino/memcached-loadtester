@@ -150,7 +150,7 @@ void printGlobalStats(struct config *config) {
     int num_samples = 50; // Number of regression samples
     if (curr_iter >= num_samples && curr_iter % horizon == 0) {
         //double *regression_data = &(latencies[curr_iter - num_samples]);
-        fit_AR_model(latencies, curr_iter, pred);
+        //fit_AR_model(latencies, curr_iter, pred);
 
         // TODO every 20, fit an autoregressive model on all the past and predict 20 in the future
         // TODO how to update RPS?
