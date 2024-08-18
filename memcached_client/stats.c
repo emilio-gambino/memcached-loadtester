@@ -145,9 +145,9 @@ void printGlobalStats(struct config *config) {
     latencies[curr_iter] = measurement;
 
     // AR model logic
-    int horizon = 20;
+    int horizon = 10;
     int pred = 10;
-    int num_samples = 20; // Number of regression samples
+    int num_samples = 100; // Number of regression samples
     if (curr_iter >= num_samples && curr_iter % horizon == 0) {
         //double *regression_data = &(latencies[curr_iter - num_samples]);
         fit_AR_model(latencies, curr_iter, pred);
