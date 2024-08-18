@@ -146,11 +146,14 @@ void printGlobalStats(struct config *config) {
 
     // AR model logic
     int horizon = 20;
-    int pred = 2;
+    int pred = 10;
     int num_samples = 20; // Number of regression samples
     if (curr_iter >= num_samples && curr_iter % horizon == 0) {
-        double *regression_data = &(latencies[curr_iter - num_samples]);
-        //fit_AR_model(regression_data, num_samples, pred);
+        //double *regression_data = &(latencies[curr_iter - num_samples]);
+        fit_AR_model(latencies, curr_iter, pred);
+
+        // TODO every 20, fit an autoregressive model on all the past and predict 20 in the future
+        // TODO how to update RPS?
 
         // 1. Get AR coefficients
         /*double *coefficients = calloc(config->degree, sizeof(double));
