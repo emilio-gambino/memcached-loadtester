@@ -30,7 +30,7 @@ void addSample(struct stat *stat, float value) {
     stat->min = fmin(stat->min, value);
     stat->max = fmax(stat->max, value);
 
-    if (value < .002) {
+    if (value < .004) {
         int bin = (int) (value * 10000000);
         stat->micros[bin] += 1;
     } else if (value < 5.0) {
@@ -77,7 +77,7 @@ double findQuantile(struct stat *stat, double quantile) {
     int nTillQuantile = global_stats.response_time.s0 * quantile;
     int count = 0;
     int i;
-    for (i = 0; i < 10000; i++) {
+    for (i = 0; i < 40000; i++) {
         count += stat->micros[i];
         if (count >= nTillQuantile) {
             double quantile = (i + 1) * .0000001;
